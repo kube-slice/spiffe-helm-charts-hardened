@@ -1,0 +1,38 @@
+spiffe-oidc-discovery-provider:
+  enabled: false
+
+spire-server:
+  controllerManager:
+    identities:
+      clusterSPIFFEIDs:
+        default:
+          enabled: false
+        oidc-discovery-provider:
+          enabled: false
+        test-keys:
+          enabled: false
+        nsm-workloads:
+          enabled: true
+          spiffeIDTemplate: "spiffe://k8s.nsm/ns/{{ .PodMeta.Namespace }}/pod/{{ .PodMeta.Name }}"
+          podSelector:
+            matchLabels:
+              spiffe.io/spiffe-id: "true"
+
+      # You can specify additional ClusterSPIFFEIDs following this example:
+      # foo:
+      #   labels:
+      #     foo: bar
+      #   spiffeIDTemplate: spiffe://{{ .TrustDomain }}/foo
+      #   namespaceSelector:
+      #     matchLabels:
+      #       foo: bar
+
+
+# kind: ClusterSPIFFEID
+# metadata:
+#   name: nsm-workloads
+# spec:
+#   podSelector:
+#     matchLabels:
+#       spiffe.io/spiffe-id: "true"
+#   spiffeIDTemplate: spiffe://k8s.nsm/ns/{{ .PodMeta.Namespace }}/pod/{{ .PodMeta.Name }}
