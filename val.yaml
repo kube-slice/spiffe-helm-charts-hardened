@@ -1,0 +1,156 @@
+spiffe-oidc-discovery-provider:
+  enabled: false
+
+spire-server:
+  caSubject:
+    country: "US"
+    organization: "SPIFFE"
+    commonName: ""
+
+  logLevel: "DEBUG"
+
+  defaultX509SvidTTL: 1h
+
+  controllerManager:
+    identities:
+      clusterSPIFFEIDs:
+        default:
+          enabled: false
+        oidc-discovery-provider:
+          enabled: false
+        test-keys:
+          enabled: false
+        nsm-workloads:
+          enabled: true
+          spiffeIDTemplate: "spiffe://k8s.nsm/ns/{{ .PodMeta.Namespace }}/pod/{{ .PodMeta.Name }}"
+          podSelector:
+            matchLabels:
+              spiffe.io/spiffe-id: "true"
+
+  upstreamAuthority:
+    disk:
+      enabled: true
+      secret:
+        create: true
+        name: "spire-ca-certs"
+        data:
+          certificate: "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURpekNDQW5PZ0F3SUJBZ0lVUENveForSStnQTNmcW4vRVo4NDI3V1J1K0cwd0RRWUpLb1pJaHZjTkFRRUwKQlFBd1ZURUxNQWtHQTFVRUJoTUNWVk14RXpBUkJnTlZCQWdNQ2xOdmJXVXRVM1JoZEdVeElUQWZCZ05WQkFvTQpHRWx1ZEdWeWJtVjBJRmRwWkdkcGRITWdVSFI1SUV4MFpERU9NQXdHQTFVRUF3d0ZiWGt0WTJFd0hoY05NalF3Ck5qQTNNVEl5T1RFd1doY05Namt3TmpBMk1USXlPVEV3V2pCVk1Rc3dDUVlEVlFRR0V3SlZVekVUTUJFR0ExVUUKQ0F3S1UyOXRaUzFUZEdGMFpURWhNQjhHQTFVRUNnd1lTVzUwWlhKdVpYUWdWMmxrWjJsMGN5QlFkSGtnVEhSawpNUTR3REFZRFZRUUREQVZ0ZVMxallUQ0NBU0l3RFFZSktvWklodmNOQVFFQkJRQURnZ0VQQURDQ0FRb0NnZ0VCCkFMd3U2VnRjVndMWjcwaHNMQnFWZFF6bFc3WC9zRlgza2FCZlgrK3p1TlZTbk90ZUpkQ21yQ1EyQUhLbk8wNjIKemJmdzAwYTlhVXZZZ3AyN3k0S2M5UzlMSFlZNjVqaW1JUmwvY2RqdWZaTjF0RHlwaGFEWVZtYlMzZFpQMVRiaApOdEpFOWZldldlRGpRTkphbkhWbnBhQWQwd04rd0pGbGN4Rkh2QVVHT3hUc05aSHR6V25CelBiSUVMY3NnUlFIClRXMHNFbGVjY2VlcFludEhKV2tyVjdEdUhCNkhYWDdxajJ4K2grTUIweWV3Y09taDZIcEdkK2VzTS9CQVBWZEMKZ1M4ZHA2RFlvNTZyNlJMUHdreWhxMktZbXhyYVlqcVFQQlQvbTR2UEhweHFnMzkvMG9MVms3VnV5Yis3OWVmVwpSaVl1NTZkbFNXMzJ2NVhMdnowNm51MENBd0VBQWFOVE1GRXdIUVlEVlIwT0JCWUVGR1pnWVpBVEpkNFNtTThsCmErS3JjYmNvQ3BsSE1COEdBMVVkSXdRWU1CYUFGR1pnWVpBVEpkNFNtTThsYStLcmNiY29DcGxITUE4R0ExVWQKRXdFQi93UUZNQU1CQWY4d0RRWUpLb1pJaHZjTkFRRUxCUUFEZ2dFQkFBeFFwclUzVkorSXpCYVdSQUFCYWVmMQpTMFZPZ3ZSQmZFRjBLRjZrMllvUmpGaHJPbk5mZU1Hd1EvS1ZBemxEMU5OVitncnk4MEdCOHhhcXRhcWMwZk80CnIrR2tpcXpyeEVYcEl5K1N6cDltYW5oY2hrQ29oSlBQK1RUTXgvMW1CY05EZ1ZvczV0OHhmeXdBdlA5ZjVoQ1IKc0tqUnVudkIxNGg0aDdIdWt0ajdZZGxHQWJFLzdvMnIyTGhwSGFIWHVxUUtxdXlIdmM4TVVZOEN4eFFiRkdIZAoxRFNtdGNLSnphenNSZ2tmVTFxL0FTT1BlRU1icmJoVWdDQ0RKTFl1ZnRnd3hjYnNLbVdvY2doa2o0MEVsWHZGCnBvTU51UDFOTlRYOUcyL0ZTQUpFUHBHZzk0WTRjc3luZjQ1dEZpZnRPamNuS01tZ2ViWTM2SjBkWi9sNnAyYz0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+          key: "LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JSUV2UUlCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQktjd2dnU2pBZ0VBQW9JQkFRQzhMdWxiWEZjQzJlOUkKYkN3YWxYVU01VnUxLzdCVjk1R2dYMS92czdqVlVwenJYaVhRcHF3a05nQnlwenRPdHMyMzhOTkd2V2xMMklLZAp1OHVDblBVdlN4MkdPdVk0cGlFWmYzSFk3bjJUZGJROHFZV2cyRlptMHQzV1Q5VTI0VGJTUlBYM3Ixbmc0MERTCldweDFaNldnSGRNRGZzQ1JaWE1SUjd3RkJqc1U3RFdSN2MxcHdjejJ5QkMzTElFVUIwMXRMQkpYbkhIbnFXSjcKUnlWcEsxZXc3aHdlaDExKzZvOXNmb2ZqQWRNbnNIRHBvZWg2Um5mbnJEUHdRRDFYUW9FdkhhZWcyS09lcStrUwp6OEpNb2F0aW1Kc2EybUk2a0R3VS81dUx6eDZjYW9OL2Y5S0MxWk8xYnNtL3UvWG4xa1ltTHVlblpVbHQ5citWCnk3ODlPcDd0QWdNQkFBRUNnZ0VBRDE3Q01aNUhxYjhmZmxTbzFOMEY0VWFaMHpJdDlyK1FvSlF1L2t3NWJ3eGYKTG1ib3JoNUc2M0xtWGlHa1JFZ2JEUWlQQVIvM0NlVUdaTUs4eGJvZDJUM2Q0ZmozNm9Mcks0TFBkaTZqTkJoRwpOSTdndXJsTGMvemZkZmN4b2k0S21tbXhNTE5Ib3pOOGpSSFlrS0JRRktxMW5GQ2pMWWVuT29TWGxLTjV6NDlkCmp0T29UaTZaaHp3MU9jVzVqOE9oMzRhWWVaTDhyVmRGKzVBSU1ESFZza2RyVkFCU3lHZWFwaFB5Zmd0c2JFWm8KVDczM2RjamJ6dUJtNk9UWkFNYUljMndMcko3Z1FaTklja0xFVGpVN2tvUDc3K08xaE43NFd5R3ZiTzJ0N3dTSQowbVdoN2xvMHpWZUh0bGpVRXRNSmdyUWo4NjBvUGZsK2JDVjdwVEY1WVFLQmdRRG02Mkc0eTM0bUpGaUV5TFF0CkphWVE5K0d5N3BEWVB3STk1RkdyTE0zQktRK1VzdG1reUE0QmdpMTA1djdaZE1jQXJpaTBIVVo4ZVo4WkNpUzMKK2hpcTR1R3NzdmZ3cHY1K3lCNnRCbTNucVU4ZTE2WHRqZUFOQVMzQ0R6S3ZEQlJXZjl6dVN1YTF4RzFGNHB1ago3NHFlYkNQV05xeDF6VzgrNlpjOVNWSG1NUUtCZ1FEUW4wUjQxZU95UnF2aFFLVGFZRW8vNXVpYUpiM0F0MXlMClRWREJkZVBnMUdKS1E1Z0pBb0NkcmxEQ2l2MG9nSkZ0bEM4S3dGbHhUcjlnSXJDTWpEaTlZQVNrVTJ5TnZPb1UKa2pJeEhoMXN2ZXhqVi94a3BDOFBwTHBaUnk5MDlXaWFwaUk3OEVDb0VHbEEwWjFJZWk3dG1vc01lYXNFWHRxbQp6RzJHY0oySmZRS0JnRTBHOVVqME1EYys1bndjaXVXSWFuVzhpZi9xemt3ajhIWit3N05LdGJPYUk4VmhSM0pNCi9VY0ppbW8xWjR0WUJjMjNTb0tTUldIZUcvRDVUamhFWjVnUktHQTRMcmFLcmRmU24xRHVGUmt5Zzk3dzVqdHcKbU8wZG1JcmtFTzhOSTNlYkhUSXJyL3V2OHhkZHVMY2RmMnJLL2NWRjVZOUNJTHFtcHJsZHpNRHhBb0dBSlhBLwppSFBSN2Q5UzN4U0x3UWpBcW1FVTR2emM1YVhDUE5sK0lZbTNnRlI4NHhqb1FzMnBLU0xzS1UxcUN3ZXZrWHVqClNZbWxRM2svVE5CTTRKd1ZYcDdKbG5mR0psVjlxSDFuOW5xU0N6NjJHa25pNkdpeWJWdEJlZDRWZlNiQlErZUcKZ3owbFRVUE1yNjR1VEtCb3BZa3paT1M4dFFjVXRCUkJuM3U4T2IwQ2dZRUFwME5ha25JNWYreUw3MnJxbmpwVgo4VFY1RGIzUTBzMTgvdGVwTlRwT1ltL094OFlCS2I0SWdKUjN1M2ZpMWRXdkNXRGsrR2wzVnk2Unh5U2RONm1wCkdramsxcEp0elJzd3pUcyttWjZ0bng5eDJabHNMRURPZ1Y1eFJIMnQ3UG9SVUtqVHQrbUp1OXNZdzZYeTZPZmsKT3JRRXNHQWNsZ2lQaGRTSzhxL2VtR2s9Ci0tLS0tRU5EIFBSSVZBVEUgS0VZLS0tLS0K"
+          bundle: ""
+
+  federation:
+    enabled: true
+    bundleEndpoint:
+      ## @param federation.bundleEndpoint.port Port value for trust bundle federation
+      port: 8443
+      ## @param federation.bundleEndpoint.address Address for trust bundle federation
+      address: "0.0.0.0"
+      ## @param federation.bundleEndpoint.refreshHint Hint used by federated servers on how often to refresh the bundle. CA TTL must be 3-5x the duration of this value to ensure public keys are loaded on federated servers prior to private key rotation on remote server.
+      refreshHint: "5m"
+      profile:
+        httpWeb:
+          ## @param federation.bundleEndpoint.profile.httpWeb.fileSyncInterval Interval on which to reload the certificate/key from disk
+          fileSyncInterval: 1h
+
+    tls:
+      spire:
+        ## @param federation.tls.spire.enabled Use spire to secure the federation bundle endpoint
+        enabled: true
+
+      externalSecret:
+        ## @param federation.tls.externalSecret.enabled Provide your own certificate/key via tls style Kubernetes Secret
+        enabled: false
+        ## @param federation.tls.externalSecret.secretName Specify which Secret to use
+        secretName: ""
+
+      certManager:
+        ## @param federation.tls.certManager.enabled Use certificateManager to create the certificate
+        enabled: false
+        issuer:
+          ## @param federation.tls.certManager.issuer.create Create an issuer to use to issue the certificate
+          create: true
+          acme:
+            ## @param federation.tls.certManager.issuer.acme.email Must be set in order to register with LetsEncrypt. By setting, you agree to their Terms of Service
+            email: ""
+            ## @param federation.tls.certManager.issuer.acme.server Server to use to get certificate. Defaults to LetsEncrypt
+            server: https://acme-v02.api.letsencrypt.org/directory
+            # Testing server: https://acme-staging-v02.api.letsencrypt.org/directory
+            ## @param federation.tls.certManager.issuer.acme.solvers [object] Configure the issuer solvers. Defaults to http01 via ingress.
+            solvers: {}
+            # - http01:
+            #     ingress:
+            #       ingressClassName: nginx
+        certificate:
+          ## @param federation.tls.certManager.certificate.dnsNames Override the dnsNames on the certificate request. Defaults to the same settings as Ingress
+          dnsNames: []
+          ## @param federation.tls.certManager.certificate.issuerRef.group If you are using an external plugin, specify the group for it here
+          ## @param federation.tls.certManager.certificate.issuerRef.kind Kind of the issuer reference. Override if you want to use a ClusterIssuer
+          ## @param federation.tls.certManager.certificate.issuerRef.name Name of the issuer to use. If unset, it will use the name of the built in issuer
+          issuerRef:
+            group: ""
+            kind: Issuer
+            name: ""
+
+    ingress:
+      ## @param federation.ingress.enabled Flag to enable ingress for federation
+      enabled: false
+      ## @param federation.ingress.className Ingress class name for federation
+      className: ""
+      ## @param federation.ingress.controllerType Specify what type of ingress controller you're using to add the necessary annotations accordingly. If blank, autodetection is attempted. If other, no annotations will be added. Must be one of [ingress-nginx, openshift, other, ""].
+      controllerType: ""
+      ## @param federation.ingress.annotations [object] Annotations for the ingress object
+      annotations: {}
+        # kubernetes.io/ingress.class: nginx
+        # kubernetes.io/tls-acme: "true"
+        # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        # If Profile Type == https_spiffe:
+        # nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+
+      ## @param federation.ingress.host Host name for the ingress. If no '.' in host, trustDomain is automatically appended. The rest of the rules will be autogenerated. For more customizability, use hosts[] instead.
+      host: "spire-server-federation"
+
+      ## @param federation.ingress.tlsSecret Secret that has the certs. If blank will use default certs. Used with host var.
+      tlsSecret: ""
+
+      ## @param federation.ingress.hosts [array] Host paths for ingress object. If empty, rules will be built based on the host var.
+      hosts: []
+      #  - host: spire-server-federation.example.org
+      #    paths:
+      #      - path: /
+      #        pathType: Prefix
+
+      ## @param federation.ingress.tls [array] Secrets containing TLS certs to enable https on ingress. If empty, rules will be built based on the host and tlsSecret vars.
+      tls: []
+      #  - hosts:
+      #      - spire-server-federation.example.org
+      #    If Profile Type == https_web:
+      #    secretName: spire-server-federation-tls
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+global:
+  spire:
+    clusterName: "k8s-nsm-cluster"
+    trustDomain: k8s.nsm
